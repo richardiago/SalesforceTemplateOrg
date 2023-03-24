@@ -1,0 +1,30 @@
+name: Salesforce validation
+
+on:
+  pull_request:
+    branches: ["dev", "homolog", "main"]
+    
+jobs:
+  define_environment:
+    runs-on: ubuntu-latest
+    env: 
+      ENVIRONMENT: "Development"
+    
+    steps:
+    - name: Setup environment
+      run: |
+        if [ ${{ github.base_ref == 'dev' }}]
+        then 
+          env: 
+            ENVIRONMENT: "Development"
+        fi
+        if [ ${{ github.base_ref == 'homolog' }}]
+        then 
+          env: 
+            ENVIRONMENT: "Homologation"
+        fi
+        if [ ${{ github.base_ref == 'main' }}]
+        then 
+          env: 
+            ENVIRONMENT: "Production"
+        fi
