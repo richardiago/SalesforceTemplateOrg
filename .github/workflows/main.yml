@@ -8,7 +8,7 @@ jobs:
   define_environment:
     runs-on: ubuntu-latest
     env: 
-      ENVIRONMENT: "Development"
+      ENVIRONMENT: "test123"
     
     steps:
     - name: Setup environment
@@ -28,3 +28,4 @@ jobs:
           env: 
             ENVIRONMENT: "Production"
         fi
+      run: echo $ENVIRONMENT
