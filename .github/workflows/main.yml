@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: salesforce/salesforcedx:latest-full
+
     steps:
-    - name: Validating on Development environment
     - run: echo  Estou rodando na dev
     - run: sfdx version
     
@@ -23,8 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: salesforce/salesforcedx:latest-full
+
     steps:
-    - name: Validating on Homologation environment
     - run: echo  Estou rodando na homolog
     - run: sfdx version
     
@@ -34,7 +34,18 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: salesforce/salesforcedx:latest-full
+      
     steps:
-    - name: Validating on Production environment
     - run: echo  Estou rodando na main
+    - run: sfdx version
+    
+  deploymentDev:
+    if: github.ref_name == 'dev' && github.event_name	== 'push'
+    environment: Development
+    runs-on: ubuntu-latest
+    container:
+      image: salesforce/salesforcedx:latest-full
+    
+    steps:
+    - run: echo  Estou implantando na dev
     - run: sfdx version
