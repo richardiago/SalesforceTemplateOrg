@@ -16,8 +16,9 @@ jobs:
       image: salesforce/salesforcedx:latest-full
 
     steps:
-    - run: echo  Estou rodando na dev
+    - run: echo "Estou rodando na dev"
     - run: sfdx version
+    - run: echo "${{ vars.ENVIROMENT_NAME }}"
     
   validationHomolog:
     if: github.base_ref == 'homolog'
@@ -71,5 +72,6 @@ jobs:
       image: salesforce/salesforcedx:latest-full
     
     steps:
-    - run: echo  Estou implantando na main
+    - run: "Estou rodando na dev"
     - run: sfdx version
+    - run: echo "${{ vars.ENVIROMENT_NAME }}"
