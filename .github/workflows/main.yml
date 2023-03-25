@@ -34,13 +34,13 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: salesforce/salesforcedx:latest-full
-      
+
     steps:
     - run: echo  Estou rodando na main
     - run: sfdx version
     
   deploymentDev:
-    if: github.ref_name == 'dev' && github.event_name	== 'push'
+    if: github.event_name	== 'push'
     environment: Development
     runs-on: ubuntu-latest
     container:
