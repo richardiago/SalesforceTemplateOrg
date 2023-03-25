@@ -5,9 +5,12 @@ on:
     branches: ["dev", "homolog", "main"]
     
 jobs:
+
   validationDev:
     if: github.base_ref == 'dev'
     runs-on: ubuntu-latest
+    container:
+      image: salesforce/salesforcedx:latest-full
     
     steps:
     - run: echo  Estou rodando na dev
@@ -15,6 +18,8 @@ jobs:
   validationHomolog:
     if: github.base_ref == 'homolog'
     runs-on: ubuntu-latest
+    container:
+      image: salesforce/salesforcedx:latest-full
     
     steps:
     - run: echo  Estou rodando na homolog
@@ -22,6 +27,8 @@ jobs:
   validationMain:
     if: github.base_ref == 'main'
     runs-on: ubuntu-latest
+    container:
+      image: salesforce/salesforcedx:latest-full
     
     steps:
     - run: echo  Estou rodando na main
