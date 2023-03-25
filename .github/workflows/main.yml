@@ -3,28 +3,73 @@ name: Salesforce validation
 on:
   pull_request:
     branches: ["dev", "homolog", "main"]
+  push: 
+    branches: ["dev", "homolog", "main"]
     
 jobs:
-  define_environment:
+
+  validationDev:
+    if: github.base_ref == 'dev'
+    environment: Development
     runs-on: ubuntu-latest
-    env: 
-      ENVIRONMENT: "Development"
+    container:
+      image: salesforce/salesforcedx:latest-full
+
+    steps:
+    - run: echo  Estou rodando na dev
+    - run: sfdx version
+    
+  validationHomolog:
+    if: github.base_ref == 'homolog'
+    environment: Homologation
+    runs-on: ubuntu-latest
+    container:
+      image: salesforce/salesforcedx:latest-full
+
+    steps:
+    - run: echo  Estou rodando na homolog
+    - run: sfdx version
+    
+  validationMain:
+    if: github.base_ref == 'main'
+    environment: Production
+    runs-on: ubuntu-latest
+    container:
+      image: salesforce/salesforcedx:latest-full
+
+    steps:
+    - run: echo  Estou rodando na main
+    - run: sfdx version
+    
+  deploymentDev:
+    if: github.ref_name == 'dev' && github.event_name	== 'push'
+    environment: Development
+    runs-on: ubuntu-latest
+    container:
+      image: salesforce/salesforcedx:latest-full
     
     steps:
-    - name: Setup environment
-      run: |
-        if [ ${{ github.base_ref == 'dev' }}]
-        then 
-          env: 
-            ENVIRONMENT: "Development"
-        fi
-        if [ ${{ github.base_ref == 'homolog' }}]
-        then 
-          env: 
-            ENVIRONMENT: "Homologation"
-        fi
-        if [ ${{ github.base_ref == 'main' }}]
-        then 
-          env: 
-            ENVIRONMENT: "Production"
-        fi
+    - run: echo  Estou implantando na dev
+    - run: sfdx version
+
+  deploymentHomolog:
+    if: github.ref_name == 'homolog' && github.event_name	== 'push'
+    environment: Development
+    runs-on: ubuntu-latest
+    container:
+      image: salesforce/salesforcedx:latest-full
+    
+    steps:
+    - run: echo  Estou implantando na homolog
+    - run: sfdx version
+
+  deploymentMain:
+    if: github.ref_name == 'main' && github.event_name	== 'push'
+    environment: Development
+    runs-on: ubuntu-latest
+    container:
+      image: salesforce/salesforcedx:latest-full
+    
+    steps:
+    - run: echo  Estou implantando na main
+    - run: sfdx version
