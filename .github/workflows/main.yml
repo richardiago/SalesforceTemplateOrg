@@ -8,6 +8,7 @@ jobs:
 
   validationDev:
     if: github.base_ref == 'dev'
+    environment: Development
     runs-on: ubuntu-latest
     container:
       image: salesforce/salesforcedx:latest-full
@@ -18,6 +19,7 @@ jobs:
     
   validationHomolog:
     if: github.base_ref == 'homolog'
+    environment: Homologation
     runs-on: ubuntu-latest
     container:
       image: salesforce/salesforcedx:latest-full
@@ -28,6 +30,7 @@ jobs:
     
   validationMain:
     if: github.base_ref == 'main'
+    environment: Production
     runs-on: ubuntu-latest
     container:
       image: salesforce/salesforcedx:latest-full
