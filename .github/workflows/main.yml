@@ -53,8 +53,5 @@ jobs:
     
     steps:
     - name: Deploying on Development environment
-    - run: echo "Estou implantando na dev"
-    
-    
-    
-    
+    - run: echo "Implantando no ambiente de desenvolvimento"
+    - run: sfdx version
