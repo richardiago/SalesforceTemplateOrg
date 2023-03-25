@@ -50,8 +50,9 @@ jobs:
       image: salesforce/salesforcedx:latest-full
     
     steps:
-    - run: echo  Estou implantando na dev
+    - run: echo "Estou implantando na dev"
     - run: sfdx version
+    - run: echo "${{ vars.ENVIROMENT_NAME }}"
 
   deploymentHomolog:
     if: github.ref_name == 'homolog' && github.event_name	== 'push'
@@ -72,6 +73,5 @@ jobs:
       image: salesforce/salesforcedx:latest-full
     
     steps:
-    - run: "Estou rodando na dev"
+    - run: "Estou rodando na main"
     - run: sfdx version
-    - run: echo "${{ vars.ENVIROMENT_NAME }}"
