@@ -14,6 +14,7 @@ jobs:
     
     steps:
     - run: echo  Estou rodando na dev
+    - run: sfdx version
     
   validationHomolog:
     if: github.base_ref == 'homolog'
@@ -23,6 +24,7 @@ jobs:
     
     steps:
     - run: echo  Estou rodando na homolog
+    - run: sfdx version
     
   validationMain:
     if: github.base_ref == 'main'
@@ -32,6 +34,7 @@ jobs:
     
     steps:
     - run: echo  Estou rodando na main
+    - run: sfdx version
     
     
     
