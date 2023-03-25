@@ -51,3 +51,25 @@ jobs:
     steps:
     - run: echo  Estou implantando na dev
     - run: sfdx version
+
+  deploymentHomolog:
+    if: github.ref_name == 'homolog' && github.event_name	== 'push'
+    environment: Development
+    runs-on: ubuntu-latest
+    container:
+      image: salesforce/salesforcedx:latest-full
+    
+    steps:
+    - run: echo  Estou implantando na homolog
+    - run: sfdx version
+
+  deploymentMain:
+    if: github.ref_name == 'main' && github.event_name	== 'push'
+    environment: Development
+    runs-on: ubuntu-latest
+    container:
+      image: salesforce/salesforcedx:latest-full
+    
+    steps:
+    - run: echo  Estou implantando na main
+    - run: sfdx version
