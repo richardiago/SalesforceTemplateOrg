@@ -17,15 +17,18 @@ jobs:
         then 
           env: 
             ENVIRONMENT: "Development"
+            echo $ENVIRONMENT
         fi
         if [ ${{ github.base_ref == 'homolog' }}]
         then 
           env: 
             ENVIRONMENT: "Homologation"
+            echo $ENVIRONMENT
         fi
         if [ ${{ github.base_ref == 'main' }}]
         then 
           env: 
             ENVIRONMENT: "Production"
+            echo $ENVIRONMENT
         fi
-      run: echo $ENVIRONMENT
+      
