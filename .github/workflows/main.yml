@@ -5,30 +5,26 @@ on:
     branches: ["dev", "homolog", "main"]
     
 jobs:
-  define_environment:
+  validationDev:
+    if: github.base_ref == 'dev'
     runs-on: ubuntu-latest
-    env: 
-      ENVIRONMENT: "test123"
     
     steps:
-    - name: Setup environment
-      run: |
-        if [ ${{ github.base_ref == 'dev' }}]
-        then 
-          env: 
-            ENVIRONMENT: "Development"
-            echo $ENVIRONMENT
-        fi
-        if [ ${{ github.base_ref == 'homolog' }}]
-        then 
-          env: 
-            ENVIRONMENT: "Homologation"
-            echo $ENVIRONMENT
-        fi
-        if [ ${{ github.base_ref == 'main' }}]
-        then 
-          env: 
-            ENVIRONMENT: "Production"
-            echo $ENVIRONMENT
-        fi
-      
+    - run: echo  Estou rodando na dev
+    
+  validationHomolog:
+    if: github.base_ref == 'homolog'
+    runs-on: ubuntu-latest
+    
+    steps:
+    - run: echo  Estou rodando na homolog
+    
+  validationMain:
+    if: github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    
+    steps:
+    - run: echo  Estou rodando na main
+    
+    
+    
