@@ -51,8 +51,10 @@ jobs:
     
     steps:
     - run: echo "Estou implantando na dev"
-    - run: sfdx version
-    - run: echo "${{ vars.ENVIROMENT_NAME }}"
+    - name: Check sfdx version
+      run: sfdx version
+    - name: Print environment variable
+      run: echo "${{ vars.ENVIROMENT_NAME }}"
 
   deploymentHomolog:
     if: github.ref_name == 'homolog' && github.event_name	== 'push'
