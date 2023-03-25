@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: salesforce/salesforcedx:latest-full
-    
     steps:
     - name: Validating on Development environment
     - run: echo  Estou rodando na dev
@@ -24,7 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: salesforce/salesforcedx:latest-full
-    
     steps:
     - name: Validating on Homologation environment
     - run: echo  Estou rodando na homolog
@@ -36,7 +34,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: salesforce/salesforcedx:latest-full
-    
     steps:
     - name: Validating on Production environment
     - run: echo  Estou rodando na main
