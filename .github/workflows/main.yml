@@ -1,4 +1,4 @@
-name: Salesforce validation
+name: Salesforce CI/CD pipeline
 
 on:
   pull_request:
