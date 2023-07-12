@@ -1,16 +1,11 @@
 name: Salesforce CI/CD pipeline
 
-
 on:
   pull_request:
     branches: ["dev", "homolog", "main"]
   push: 
     branches: ["dev", "homolog", "main"]
-    
-defaults:
-  run:
-    runs-on: ubuntu-latest
-    
+  
 jobs:
 
   validationDev:
