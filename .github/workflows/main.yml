@@ -55,7 +55,7 @@ jobs:
       run: sf version
     - name: Print environment variable
       run: echo "${{ vars.ENVIROMENT_NAME }}"
-    - name: authentication github
+    - name: authentication Github
       uses: actions/checkout@v2
     - name: Add safe.directory exception
       run: git config --global --add safe.directory /__w/CICD_Actions/CICD_Actions

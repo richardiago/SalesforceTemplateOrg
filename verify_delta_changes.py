@@ -1,7 +1,6 @@
 import sys
 import subprocess
 
-
 if __name__ == "__main__":
    
    origin_branch = sys.argv[1]
