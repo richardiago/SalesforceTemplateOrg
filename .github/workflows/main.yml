@@ -59,6 +59,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Add safe.directory exception
       run: git config --global --add safe.directory /__w/CICD_Actions/CICD_Actions
+    - name: git fetch
+      run: git fetch --all
     - name: run python script
       run: python3 verify_delta_changes.py origin/dev origin/homolog
 
