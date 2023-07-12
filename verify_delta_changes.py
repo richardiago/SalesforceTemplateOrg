@@ -12,3 +12,6 @@ if __name__ == "__main__":
         stdout=subprocess.PIPE,
         text=True
    )
+
+   print(result)
+   print(result.stdout)
