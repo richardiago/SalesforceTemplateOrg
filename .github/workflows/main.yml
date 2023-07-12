@@ -55,6 +55,8 @@ jobs:
       run: sfdx version
     - name: Print environment variable
       run: echo "${{ vars.ENVIROMENT_NAME }}"
+    - name: Verifying python version
+      run: python --version
 
   deploymentHomolog:
     if: github.ref_name == 'homolog' && github.event_name	== 'push'
