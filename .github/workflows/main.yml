@@ -57,6 +57,8 @@ jobs:
       run: echo "${{ vars.ENVIROMENT_NAME }}"
     - name: authentication github
       uses: actions/checkout@v2
+    - name: Add safe.directory exception
+      run: git config --global --add safe.directory /__w/CICD_Actions/CICD_Actions
     - name: run python script
       run: python3 verify_delta_changes.py origin/dev homolog
 
