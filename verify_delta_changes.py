@@ -1,5 +1,9 @@
 import sys
+import os
 
 if __name__ == "__main__":
-    print(sys.argv[0])
-    print(sys.argv[1])
+   
+   original_branch = sys.argv[1]
+   destination_branch = sys.argv[2]
+   
+   os.system("git diff --name-only " + original_branch + " " + destination_branch)

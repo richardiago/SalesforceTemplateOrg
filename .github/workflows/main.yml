@@ -58,7 +58,7 @@ jobs:
     - name: authentication github
       uses: actions/checkout@v2
     - name: run python script
-      run: python3 verify_delta_changes.py testeDeScript
+      run: python3 verify_delta_changes.py dev homolog
 
   deploymentHomolog:
     if: github.ref_name == 'homolog' && github.event_name	== 'push'
