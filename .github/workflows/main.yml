@@ -3,8 +3,6 @@ name: Salesforce CI/CD pipeline
 defaults:
   run:
     runs-on: ubuntu-latest
-    container:
-      image: salesforce/salesforcedx:latest-full
 
 on:
   pull_request:
