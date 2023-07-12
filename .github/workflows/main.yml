@@ -57,6 +57,8 @@ jobs:
       run: echo "${{ vars.ENVIROMENT_NAME }}"
     - name: authentication github
       uses: actions/checkout@v2
+    - name: Fetch dev branch
+      run: git fetch origin dev
     - name: run python script
       run: python3 verify_delta_changes.py dev homolog
 
