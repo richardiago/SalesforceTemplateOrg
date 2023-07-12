@@ -55,8 +55,9 @@ jobs:
       run: sfdx version
     - name: Print environment variable
       run: echo "${{ vars.ENVIROMENT_NAME }}"
-    - name: Run python script
+    - name: authentication github
       uses: actions/checkout@v2
+    - name: run python script
       run: python3 verify_delta_changes.py testeDeScript
 
   deploymentHomolog:
