@@ -55,8 +55,9 @@ jobs:
       run: sfdx version
     - name: Print environment variable
       run: echo "${{ vars.ENVIROMENT_NAME }}"
-    - name: Verifying python version
-      run: python --version
+    - name: Run python script
+      uses: actions/checkout@v2
+      run: python3 verify_delta_changes.py testeDeScript
 
   deploymentHomolog:
     if: github.ref_name == 'homolog' && github.event_name	== 'push'
