@@ -60,7 +60,7 @@ jobs:
     - name: Add safe.directory exception
       run: git config --global --add safe.directory /__w/CICD_Actions/CICD_Actions
     - name: run python script
-      run: python3 verify_delta_changes.py origin/dev homolog
+      run: python3 verify_delta_changes.py origin/dev origin/homolog
 
   deploymentHomolog:
     if: github.ref_name == 'homolog' && github.event_name	== 'push'
