@@ -64,7 +64,8 @@ jobs:
     - name: run python script
       run: |
         export FILES=$(python3 verify_delta_changes.py origin/dev origin/homolog)
-        echo "Arquivos alterados: " $FILES
+        echo "Arquivos alterados: " 
+        echo $FILES
 
   deploymentHomolog:
     if: github.ref_name == 'homolog' && github.event_name	== 'push'
