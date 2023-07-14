@@ -19,6 +19,7 @@ def verifyDeltaChages(origin_branch, destination_branch):
      if os.path.exists(file):
         concatFiles += ' ' + file
 
+   print(concatFiles)
    return concatFiles
 
 if __name__ == "__main__":
