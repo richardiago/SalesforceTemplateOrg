@@ -1,1 +1,7 @@
-teste123456
+converter: sf project convert source -r force-app -p "arquivos" -d converted/main
+
+autenticar: sf login functions jwt --username $USERNAME --keyfile $PRIVATE_KEY --clientid $CLIENTID --instance-url $INSTANCE_URL
+
+validar: sf project deploy validate --metadata-dir converted/main -l RunLocalTests
+
+implantar: sf project deploy --metadata-dir converted/main -l RunLocalTests
