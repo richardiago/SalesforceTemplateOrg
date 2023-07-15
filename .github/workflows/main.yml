@@ -93,7 +93,7 @@ jobs:
 
 
     - name: Verifying changes
-      run: echo "CHANGED_FILES=$(python3 verify_delta_changes.py ${{ github.ref }} ${{ github.base_ref }})" >> $GITHUB_ENV
+      run: echo "CHANGED_FILES=$(python3 verify_delta_changes.py ${{ github.event.before }} ${{ github.event.after }})" >> $GITHUB_ENV
 
     - name: Show variable value
       run: echo $CHANGED_FILES
