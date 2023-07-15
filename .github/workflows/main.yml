@@ -65,7 +65,7 @@ jobs:
       run: |
         echo "CHANGED_FILES=$(python3 verify_delta_changes.py origin/dev origin/homolog)" >> $GITHUB_ENV
         echo "Variable value: "
-        echo $CHANGED_FILES
+        echo "$CHANGED_FILES"
 
   deploymentHomolog:
     if: github.ref_name == 'homolog' && github.event_name	== 'push'
