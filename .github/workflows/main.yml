@@ -63,8 +63,9 @@ jobs:
       run: git fetch --all
     - name: run python script
       run: |
-        output=$(python3 verify_delta_changes.py origin/dev origin/homolog)
-        echo "::set-output name=script-output::$output"
+        export CHANGED_FILES=$(python3 verify_delta_changes.py origin/dev origin/homolog)
+        echo "Variable value: "
+        echo $CHANGED_FILES
 
   deploymentHomolog:
     if: github.ref_name == 'homolog' && github.event_name	== 'push'
