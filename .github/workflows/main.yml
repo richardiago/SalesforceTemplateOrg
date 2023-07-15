@@ -50,21 +50,21 @@ jobs:
       image: salesforce/salesforcedx:latest-full
     
     steps:
-    - run: echo "Estou implantando na dev"
-    - name: Check sfdx version
-      run: sf version
-    - name: Print environment variable
-      run: echo "${{ vars.ENVIROMENT_NAME }}"
+    - run: echo "Deploying to Development environment"
+
     - name: authentication Github
       uses: actions/checkout@v2
+
     - name: Add safe.directory exception
       run: git config --global --add safe.directory /__w/CICD_Actions/CICD_Actions
-    - name: git fetch
+
+    - name: Git fetch
       run: git fetch --all
-    - name: run python script
-      run: |
-        echo "CHANGED_FILES=$(python3 verify_delta_changes.py origin/dev origin/homolog)" >> $GITHUB_ENV
-    - name: show variable value
+
+    - name: Verifying changes
+      run: CHANGED_FILES=$(python3 verify_delta_changes.py origin/dev origin/homolog) >> $GITHUB_ENV
+
+    - name: Show variable value
       run: echo $CHANGED_FILES
 
   deploymentHomolog:
