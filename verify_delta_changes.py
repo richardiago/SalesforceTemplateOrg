@@ -4,9 +4,12 @@ import subprocess
 
 def verifyDeltaChages(origin_branch, destination_branch):
 
+   # Fetch the latest changes
+   subprocess.run("git fetch --all", shell=True)
+
    # Get the list of files that have changed
    result = subprocess.run(
-      ["git", "diff", "--name-only force-app/main/default", origin_branch, destination_branch],
+      ["git", "diff", "--name-only", origin_branch, destination_branch, "force-app/main/default"],
       stdout=subprocess.PIPE,
       text=True
    )
