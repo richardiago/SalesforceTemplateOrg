@@ -37,7 +37,7 @@ jobs:
         if: ${{ env.CHANGED_FILES != '' }}
         run: |
           sf project convert source -r force-app -p $CHANGED_FILES -d converted/main
-          sf login functions jwt --username ${{ vars.USERNAME }} --keyfile ${{ secrets.PRIVATE_KEY }} --clientid ${{ secrets.CLIENT_ID }} --instanceurl ${{ vars.INSTANCE_URL }}
+          sf org login jwt --username ${{ vars.USERNAME }} --jwt-key-file ${{ secrets.PRIVATE_KEY }} --client-id ${{ secrets.CLIENT_ID }} --instance-url ${{ vars.INSTANCE_URL }}
           sf project deploy validate --metadata-dir converted/main -l RunLocalTests
     
   validationHomolog:
@@ -102,7 +102,7 @@ jobs:
       if: ${{ env.CHANGED_FILES != '' }}
       run: |
         sf project convert source -r force-app -p $CHANGED_FILES -d converted/main
-        sf login functions jwt --username ${{ vars.USERNAME }} --keyfile ${{ secrets.PRIVATE_KEY }} --clientid ${{ secrets.CLIENT_ID }} --instanceurl ${{ vars.INSTANCE_URL }}
+        sf login functions jwt --username ${{ vars.USERNAME }} --jwt-key-file ${{ secrets.PRIVATE_KEY }} --client-id ${{ secrets.CLIENT_ID }} --instance-url ${{ vars.INSTANCE_URL }}
         sf project deploy --metadata-dir converted/main -l RunLocalTests
 
   deploymentHomolog:
