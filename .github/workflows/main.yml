@@ -73,7 +73,9 @@ jobs:
     - run: echo "Deploying to Development environment"
 
     - name: authentication Github
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
     - name: Add safe.directory exception
       run: git config --global --add safe.directory /__w/CICD_Actions/CICD_Actions
@@ -84,7 +86,7 @@ jobs:
     - name: Nome das branchs
       run: |
        echo "Branch de origem ${{ github.ref }}"
-       echo "Branch de destino ${{ github.base_ref }}"
+       echo "Branch de destino ${{ github.base_ref }}"   
 
     - name: nome dos arquivos alterados
       run: git diff --name-only ${{ github.event.before }} ${{ github.event.after }}
