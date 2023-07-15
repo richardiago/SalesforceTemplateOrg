@@ -16,9 +16,29 @@ jobs:
       image: salesforce/salesforcedx:latest-full
 
     steps:
-    - run: echo "Estou rodando na dev"
-    - run: sfdx version
-    - run: echo "${{ vars.ENVIROMENT_NAME }}"
+      - run: echo "Validating in Development environment"
+    
+      - name: authentication Github
+        uses: actions/checkout@v2
+      
+      - name: Add safe.directory exception
+        run: git config --global --add safe.directory /__w/CICD_Actions/CICD_Actions
+
+      - name: Git fetch
+        run: git fetch --all
+
+      - name: Verifying changes
+        run: echo "CHANGED_FILES=$(python3 verify_delta_changes.py origin/${{ github.head_ref }} origin/${{ github.base_ref }})" >> $GITHUB_ENV
+
+      - name: Show variable value
+        run: echo $CHANGED_FILES
+
+      - name: Deploy to Development environment using SFDX
+        if: ${{ env.CHANGED_FILES != '' }}
+        run: |
+          sf project convert source -r force-app -p $CHANGED_FILES -d converted/main
+          sf login functions jwt --username ${{ vars.USERNAME }} --keyfile ${{ secrets.PRIVATE_KEY }} --clientid ${{ secrets.CLIENT_ID }} --instanceurl ${{ vars.INSTANCE_URL }}
+          sf project deploy validate --metadata-dir converted/main -l RunLocalTests
     
   validationHomolog:
     if: github.base_ref == 'homolog'
@@ -61,8 +81,14 @@ jobs:
     - name: Git fetch
       run: git fetch --all
 
+    - name: Nome das branchs
+      run: |
+       echo "Branch de origem ${{ github.ref }}"
+       echo "Branch de destino ${{ github.base_ref }}"
+
+
     - name: Verifying changes
-      run: echo "CHANGED_FILES=$(python3 verify_delta_changes.py origin/dev origin/homolog)" >> $GITHUB_ENV
+      run: echo "CHANGED_FILES=$(python3 verify_delta_changes.py ${{ github.ref }} ${{ github.base_ref }})" >> $GITHUB_ENV
 
     - name: Show variable value
       run: echo $CHANGED_FILES
