@@ -66,6 +66,13 @@ jobs:
 
     - name: Show variable value
       run: echo $CHANGED_FILES
+    
+    - name: Deploy to Development environment using SFDX
+      if: $CHANGED_FILES != ''
+      run: |
+        sf project convert source -r force-app -p $CHANGED_FILES -d converted/main
+        sf login functions jwt --username ${{ vars.USERNAME }} --keyfile ${{ secrets.PRIVATE_KEY }} --clientid ${{ secrets.CLIENT_ID }} --instanceurl ${{ vars.INSTANCE_URL }}
+        sf project deploy --metadata-dir converted/main -l RunLocalTests
 
   deploymentHomolog:
     if: github.ref_name == 'homolog' && github.event_name	== 'push'
