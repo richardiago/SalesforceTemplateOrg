@@ -63,6 +63,7 @@ jobs:
       run: git fetch --all
     - name: run python script
       run: |
+        set -x
         export CHANGED_FILES=$(python3 verify_delta_changes.py origin/dev origin/homolog)
         echo "Variable value: "
         echo $CHANGED_FILES
