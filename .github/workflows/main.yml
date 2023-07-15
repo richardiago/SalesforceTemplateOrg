@@ -89,7 +89,7 @@ jobs:
        echo "Branch de destino ${{ github.base_ref }}"   
 
     - name: nome dos arquivos alterados
-      run: git diff --name-only ${{ github.event.before }} ${{ github.event.after }}
+      run: git diff --name-only force-app/main/default ${{ github.event.before }} ${{ github.event.after }}
 
 
     - name: Verifying changes
