@@ -6,7 +6,7 @@ def verifyDeltaChages(origin_branch, destination_branch):
 
    # Get the list of files that have changed
    result = subprocess.run(
-      ["git", "diff", "--name-only force-app/main/default", origin_branch, destination_branch],
+      ["git", "diff", "--name-only", origin_branch, destination_branch],
       stdout=subprocess.PIPE,
       text=True
    )
