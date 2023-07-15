@@ -4,6 +4,6 @@ public with sharing class Testclass {
     }
 
     public void testMethod() {
-        System.debug('testMethosdfsdfsd236');
+        System.debug('testMesdadasdathosdfsdfsd236');
     }
 }
