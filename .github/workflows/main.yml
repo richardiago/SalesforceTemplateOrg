@@ -62,7 +62,7 @@ jobs:
       run: git fetch --all
 
     - name: Verifying changes
-      run: CHANGED_FILES=$(python3 verify_delta_changes.py origin/dev origin/homolog) >> $GITHUB_ENV
+      run: echo "CHANGED_FILES=$(python3 verify_delta_changes.py origin/dev origin/homolog)" >> $GITHUB_ENV
 
     - name: Show variable value
       run: echo $CHANGED_FILES
