@@ -28,7 +28,7 @@ jobs:
     SalesforceValidation:
         name: 'Salesforce Validation'
         needs: SetEnvironment
-        environment: ${{ needs.SetEnvironment.outputs.environment_name }}}
+        environment: ${{ needs.SetEnvironment.outputs.environment_name }}
         runs-on: ubuntu-latest
         container:
             image: salesforce/salesforcedx:latest-full
@@ -50,7 +50,7 @@ jobs:
               run: echo "${{ secrets.PRIVATE_KEY }}" > private_key.key
 
             - name: Show enviroment variable
-              run: echo "${{ needs.SetEnvironment.outputs.environment_name }}}"
+              run: echo "${{ needs.SetEnvironment.outputs.environment_name }}"
 
             - name: Deploy to Development environment using SFDX
               if: ${{ env.CHANGED_FILES != '' }}
