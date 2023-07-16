@@ -25,7 +25,32 @@ jobs:
                     echo "environment_name=Production" >> $GITHUB_ENV
                     fi
 
-            - name: Set Environment Name
-              run: echo $environment_name
+    SalesforceValidation:
+        name: 'Salesforce Validation'
+        environment: $environment_name
+        runs-on: ubuntu-latest
+        container:
+            image: salesforce/salesforcedx:latest-full
+
+        steps:
+            - name: GitHub Checkout
+              uses: actions/checkout@v2
+
+            - name: Add safe.directory exception
+              run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+
+            - name: Git fetch
+              run: git fetch --all
+
+            - name: Verifying changes
+              run: echo "CHANGED_FILES=$(python3 verify_delta_changes.py origin/${{ github.head_ref }} origin/${{ github.base_ref }})" >> $GITHUB_ENV
     
-        
+            - name: Get the private key
+              run: echo "${{ secrets.PRIVATE_KEY }}" > private_key.key
+
+            - name: Deploy to Development environment using SFDX
+              if: ${{ env.CHANGED_FILES != '' }}
+              run: |
+                sf project convert source -r force-app -p $CHANGED_FILES -d converted/main
+                sf org login jwt --username ${{ vars.USERNAME }} --jwt-key-file private_key.key --client-id ${{ secrets.CLIENT_ID }} --instance-url ${{ vars.INSTANCE_URL }}
+                sf project deploy validate --metadata-dir converted/main -l RunLocalTests -o ${{ vars.USERNAME }}
