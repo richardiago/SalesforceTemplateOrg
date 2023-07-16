@@ -27,7 +27,7 @@ jobs:
 
     SalesforceValidation:
         name: 'Salesforce Validation'
-        environment: $environment_name
+        environment: Development
         runs-on: ubuntu-latest
         container:
             image: salesforce/salesforcedx:latest-full
