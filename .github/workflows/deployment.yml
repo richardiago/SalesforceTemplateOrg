@@ -1,12 +1,12 @@
-name: Salesforce Validation CI/CD Pipeline
+name: Salesforce Deployment CI/CD Pipeline
 
 on:
-    pull_request:
+    push:
       branches: ["dev", "homolog", "main"]
 
 jobs:
     SetEnvironment:
-        name: 'Set Validation Environment'
+        name: 'Set Deployment Environment'
         runs-on: ubuntu-latest
         env:
             environment_name: environment
@@ -25,8 +25,8 @@ jobs:
                     echo "environment_name=Production" >> $GITHUB_ENV
                     fi
 
-    SalesforceValidation:
-        name: 'Salesforce Validation'
+    SalesforceDeployment:
+        name: 'Salesforce Deployment'
         needs: SetEnvironment
         environment: ${{ needs.SetEnvironment.outputs.environment_name }}
         runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
               run: git fetch --all
 
             - name: Verifying changes
-              run: echo "CHANGED_FILES=$(python3 verify_delta_changes.py origin/${{ github.head_ref }} origin/${{ github.base_ref }})" >> $GITHUB_ENV
+              run: echo "CHANGED_FILES=$(python3 verify_delta_changes.py origin/${{ github.event.before }} origin/${{ github.event.after }})" >> $GITHUB_ENV
     
             - name: Get the private key
               run: echo "${{ secrets.PRIVATE_KEY }}" > private_key.key
@@ -54,4 +54,4 @@ jobs:
               run: |
                 sf project convert source -r force-app -p $CHANGED_FILES -d converted/main
                 sf org login jwt --username ${{ vars.USERNAME }} --jwt-key-file private_key.key --client-id ${{ secrets.CLIENT_ID }} --instance-url ${{ vars.INSTANCE_URL }}
-                sf project deploy validate --metadata-dir converted/main -l RunLocalTests -o ${{ vars.USERNAME }}
+                sf project deploy --metadata-dir converted/main -l RunLocalTests -o ${{ vars.USERNAME }}
