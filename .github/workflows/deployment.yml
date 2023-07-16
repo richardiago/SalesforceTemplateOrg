@@ -35,9 +35,7 @@ jobs:
 
         steps:
             - name: GitHub Checkout
-              uses: actions/checkout@v3
-              with:
-                fetch-depth: 0
+              uses: actions/checkout@v2
 
             - name: Add safe.directory exception
               run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
