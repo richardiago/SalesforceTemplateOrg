@@ -24,6 +24,8 @@ jobs:
                     elif [[ ${{ github.base_ref }} == main ]]; then
                     echo "environment_name=Production" >> $GITHUB_ENV
                     fi
-                    echo "environment_name=${{ env.environment_name }}"
+
+            - name: Set Environment Name
+              run: echo $environment_name
     
         
