@@ -26,6 +26,6 @@ def verifyDeltaChages(origin_branch, destination_branch):
 
 if __name__ == "__main__":
    
-   verifyDeltaChages('origin/feature/teste-automacao', 'origin/dev')
+   verifyDeltaChages(sys.argv[1], sys.argv[2])
 
    
