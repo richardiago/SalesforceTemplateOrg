@@ -1,0 +1,59 @@
+name: Salesforce Deployment CI/CD Pipeline
+
+on:
+    push:
+      branches: ["dev", "homolog", "main"]
+
+jobs:
+    SetEnvironment:
+        name: 'Set Deployment Environment'
+        runs-on: ubuntu-latest
+        env:
+            environment_name: environment
+        outputs:
+            environment_name: ${{ env.environment_name }}
+        steps:
+            - name: Determine Environment
+              run: |
+                    if [[ ${{ github.ref_name }} == dev ]]; then
+                    echo "environment_name=Development" >> $GITHUB_ENV
+
+                    elif [[ ${{ github.ref_name }} == homolog ]]; then
+                    echo "environment_name=Homologation" >> $GITHUB_ENV
+
+                    elif [[ ${{ github.ref_name }} == main ]]; then
+                    echo "environment_name=Production" >> $GITHUB_ENV
+                    fi
+
+    SalesforceDeployment:
+        name: 'Salesforce Deployment'
+        needs: SetEnvironment
+        environment: ${{ needs.SetEnvironment.outputs.environment_name }}
+        runs-on: ubuntu-latest
+        container:
+            image: salesforce/salesforcedx:latest-full
+
+        steps:
+            - name: GitHub Checkout
+              uses: actions/checkout@v3
+              with:
+                fetch-depth: 0
+
+            - name: Add safe.directory exception
+              run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+
+            - name: Git fetch
+              run: git fetch --all
+
+            - name: Verifying changes
+              run: echo "CHANGED_FILES=$(python3 verify_delta_changes.py ${{ github.event.before }} ${{ github.event.after }})" >> $GITHUB_ENV
+    
+            - name: Get the private key
+              run: echo "${{ secrets.PRIVATE_KEY }}" > private_key.key
+
+            - name: Deploy using SFDX
+              if: ${{ env.CHANGED_FILES != '' }}
+              run: |
+                sf project convert source -r force-app -p $CHANGED_FILES -d converted/main
+                sf org login jwt --username ${{ vars.USERNAME }} --jwt-key-file private_key.key --client-id ${{ secrets.CLIENT_ID }} --instance-url ${{ vars.INSTANCE_URL }}
+                sf project deploy start --metadata-dir converted/main -l RunLocalTests -o ${{ vars.USERNAME }}
