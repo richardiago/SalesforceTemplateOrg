@@ -41,7 +41,7 @@ jobs:
         run: |
           sf project convert source -r force-app -p $CHANGED_FILES -d converted/main
           sf org login jwt --username ${{ vars.USERNAME }} --jwt-key-file private_key.key --client-id ${{ secrets.CLIENT_ID }} --instance-url ${{ vars.INSTANCE_URL }}
-          sf project deploy validate -m $CHANGED_FILES -l RunLocalTests -o ${{ vars.USERNAME }}
+          sf project deploy validate --metadata-dir converted/main -l RunLocalTests -o ${{ vars.USERNAME }}
     
   validationHomolog:
     if: github.base_ref == 'homolog'
