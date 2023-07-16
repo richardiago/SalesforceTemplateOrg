@@ -15,13 +15,13 @@ jobs:
         steps:
             - name: Determine Environment
               run: |
-                    if [[ ${{ github.base_ref }} == dev ]]; then
+                    if [[ ${{ github.ref_name }} == dev ]]; then
                     echo "environment_name=Development" >> $GITHUB_ENV
 
-                    elif [[ ${{ github.base_ref }} == homolog ]]; then
+                    elif [[ ${{ github.ref_name }} == homolog ]]; then
                     echo "environment_name=Homologation" >> $GITHUB_ENV
 
-                    elif [[ ${{ github.base_ref }} == main ]]; then
+                    elif [[ ${{ github.ref_name }} == main ]]; then
                     echo "environment_name=Production" >> $GITHUB_ENV
                     fi
 
