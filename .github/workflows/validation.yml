@@ -1,0 +1,29 @@
+name: Salesforce Validation CI/CD Pipeline
+
+on:
+    pull_request:
+      branches: ["dev", "homolog", "main"]
+
+jobs:
+    SetEnvironment:
+        name: 'Set Validation Environment'
+        runs-on: ubuntu-latest
+        env:
+            environment_name: environment
+        outputs:
+            environment_name: ${{ env.environment_name }}
+        steps:
+            - name: Determine Environment
+              run: |
+                    if [[ ${{ github.head_ref }} == 'dev' ]]; then
+                    echo "environment_name=Development" >> $GITHUB_ENV
+
+                    elif [[ ${{ github.head_ref }} == 'homolog' ]]; then
+                    echo "environment_name=Homologation" >> $GITHUB_ENV
+
+                    elif [[ ${{ github.head_ref }} == 'main' ]]; then
+                    echo "environment_name=Production" >> $GITHUB_ENV
+                    fi
+                    echo "environment_name=${{ env.environment_name }}"
+    
+        
