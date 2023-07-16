@@ -35,9 +35,7 @@ jobs:
 
         steps:
             - name: GitHub Checkout
-              uses: actions/checkout@v3
-              with:
-                fetch-depth: 0
+              uses: actions/checkout@v2
 
             - name: Add safe.directory exception
               run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
@@ -46,7 +44,7 @@ jobs:
               run: git fetch --all
 
             - name: Verifying changes
-              run: echo "CHANGED_FILES=$(python3 verify_delta_changes.py origin/${{ github.event.before }} origin/${{ github.event.after }})" >> $GITHUB_ENV
+              run: echo "CHANGED_FILES=$(python3 verify_delta_changes.py ${{ github.event.before }} ${{ github.event.after }})" >> $GITHUB_ENV
     
             - name: Get the private key
               run: echo "${{ secrets.PRIVATE_KEY }}" > private_key.key
