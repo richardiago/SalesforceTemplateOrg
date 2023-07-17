@@ -23,7 +23,7 @@ public without sharing class AccountHandler extends TriggerHandler {
     }
 
     public override void beforeInsert(){
-        AccountHelper.setAccountNumber((List<Account>) newRecordList);
+        AccountHelper.updateNumberOfEmployees((List<Account>) newRecordList);
     }
 
     public override void afterInsert(){}

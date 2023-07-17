@@ -5,7 +5,7 @@ public class AccountHelperTest {
     static void makeData(){
 
         Account acc = (Account) TestFactory.createSObject(new Account(
-            Employees = 100
+            NumberOfEmployees = 100
         ));
         insert acc;
     }
@@ -13,8 +13,8 @@ public class AccountHelperTest {
     @isTest
     static void updateNumberEmployeesTest(){
 
-        Account acc = [SELECT Employees FROM Account LIMIT 1];
+        Account acc = [SELECT NumberOfEmployees FROM Account LIMIT 1];
         
-        Assert.areEqual(110, acc.Employees);
+        Assert.areEqual(110, acc.NumberOfEmployees);
     }
 }
