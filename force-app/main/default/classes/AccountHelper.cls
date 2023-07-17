@@ -1,8 +1,8 @@
 public without sharing class AccountHelper {
     
-    public static void updateNumberOfEmployees(Map<Id, Account> newRecordsMap){
+    public static void updateNumberOfEmployees(List<Account> newRecordList){
 
-        for(Account acc : newRecordsMap.values()){
+        for(Account acc : newRecordList){
             acc.NumberOfEmployees += 10; 
         }
     }
