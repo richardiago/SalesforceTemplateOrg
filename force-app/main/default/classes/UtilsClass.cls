@@ -1,4 +1,4 @@
-public without sharing class UtilsClass {
+global without sharing class UtilsClass {
     
     public static Id getRecordTypeId(String objectName, String recordType, Boolean isDeveloperName){
 
@@ -52,6 +52,80 @@ public without sharing class UtilsClass {
         catch(Exception e){}
 
         return false;
+    }
+
+    public static String getObjectDeveloperName(Id recordId, Boolean isGettingDeveloperName){
+
+        String objectName = '';
+
+        try{
+            objectName = isGettingDeveloperName ? recordId.getSObjectType().getDescribe().getName() : recordId.getSObjectType().getDescribe().getLabel();
+        }
+        catch(Exception e){}
+
+        return objectName;
+    }
+
+    public static HttpResponseWrapper executeHttpRequest(String endpoint, String method, Object body, Map<String, String> headers){
+
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint(endpoint);
+        request.setMethod(method);
+        request.setTimeout(120000);
+
+        if(body != null) request.setBody(JSON.serialize(body));
+
+        for(String key : headers.keySet()){
+            request.setHeader(key, headers.get(key));
+        }
+
+        HttpResponseWrapper responseWrapper = new HttpResponseWrapper();
+
+        try{
+            HttpResponse response = new Http().send(request);
+            responseWrapper.statusCode = response.getStatusCode();
+            responseWrapper.response = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+        }
+        catch(Exception e){
+            responseWrapper.hasError = true;
+            responseWrapper.response = new Map<String, Object>();
+            responseWrapper.response.put('message', e.getMessage());
+        }
+
+        return responseWrapper;
+    }
+
+    public static void sendSingleEmail(List<String> toAddresses, List<String> ccAddresses, String body, Boolean isHtmlBody, String subject, String displayName, Boolean isBccSender, Boolean useSignature, String replyTo){
+
+        Messaging.reserveSingleEmailCapacity(toAddresses.size() + ccAddresses.size());
+
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+        
+        if(toAddresses.size() + ccAddresses.size() = 0) return;
+
+        mail.setToAddresses(toAddresses);
+        mail.setCcAddresses(ccAddresses);
+
+        if(String.isNotBlank(replyTo)) mail.setReplyTo(replyTo);
+        if(String.isNotBlank(displayName)) mail.setSenderDisplayName(displayName);
+        if(String.isNotBlank(subject)) mail.setSubject(subject);
+        mail.setBccSender(isBccSender);
+        mail.setUseSignature(useSignature);
+
+        if(isHtmlBody){
+            mail.setHtmlBody(body);
+        }
+        else{
+            mail.setPlainTextBody(body);
+        }
+
+        Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{mail});
+    }
+    
+    public class HttpResponseWrapper {
+        public Map<String, Object> response;
+        public Integer statusCode;
+        public Boolean hasError = false;
     }
 
 }
