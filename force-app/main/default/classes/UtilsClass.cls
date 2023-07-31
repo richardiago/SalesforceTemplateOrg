@@ -9,7 +9,9 @@ global without sharing class UtilsClass {
             
             return Schema.getGlobalDescribe().get(objectName).getDescribe().getRecordTypeInfosByName().get(recordTypeDeveloperName).getRecordTypeId();
         }
-        catch(Exception e){}
+        catch(Exception e){
+            throw new UtilsException(e.getMessage());
+        }
 
         return null;
     }
@@ -25,7 +27,9 @@ global without sharing class UtilsClass {
                 picklistValues.put(picklistEntry.getValue(), picklistEntry.getLabel());
             }
         }
-        catch(Exception e){}
+        catch(Exception e){
+            throw new UtilsException(e.getMessage());
+        }
 
         return picklistValues;
     }
@@ -37,7 +41,9 @@ global without sharing class UtilsClass {
         try{
             isChanged = (newRecord.get(field) != oldRecord.get(field)) ? true : false;
         }
-        catch(Exception e){}
+        catch(Exception e){
+            throw new UtilsException(e.getMessage());
+        }
 
         return isChanged;
     }
@@ -61,7 +67,9 @@ global without sharing class UtilsClass {
         try{
             objectName = isGettingDeveloperName ? recordId.getSObjectType().getDescribe().getName() : recordId.getSObjectType().getDescribe().getLabel();
         }
-        catch(Exception e){}
+        catch(Exception e){
+            throw new UtilsException(e.getMessage());
+        }
 
         return objectName;
     }
@@ -122,6 +130,8 @@ global without sharing class UtilsClass {
         Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{mail});
     }
     
+    public class UtilsException extends Exception {}
+
     public class HttpResponseWrapper {
         public Map<String, Object> response;
         public Integer statusCode;
