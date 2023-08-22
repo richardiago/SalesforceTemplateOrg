@@ -7,13 +7,11 @@ global without sharing class UtilsClass {
                 return Schema.getGlobalDescribe().get(objectName).getDescribe().getRecordTypeInfosByDeveloperName().get(recordType).getRecordTypeId();
             }
             
-            return Schema.getGlobalDescribe().get(objectName).getDescribe().getRecordTypeInfosByName().get(recordTypeDeveloperName).getRecordTypeId();
+            return Schema.getGlobalDescribe().get(objectName).getDescribe().getRecordTypeInfosByName().get(recordType).getRecordTypeId();
         }
         catch(Exception e){
             throw new UtilsException(e.getMessage());
         }
-
-        return null;
     }
 
     public static Map<String, String> getPicklistValues(String objectName, String fieldName){
@@ -97,19 +95,20 @@ global without sharing class UtilsClass {
         catch(Exception e){
             responseWrapper.hasError = true;
             responseWrapper.response = new Map<String, Object>();
-            responseWrapper.response.put('message', e.getMessage());
+            responseWrapper.response.put('error', e.getMessage());
         }
 
         return responseWrapper;
     }
 
-    public static void sendSingleEmail(List<String> toAddresses, List<String> ccAddresses, String body, Boolean isHtmlBody, String subject, String displayName, Boolean isBccSender, Boolean useSignature, String replyTo){
+    public static void sendEmail(List<Messaging.SingleEmailMessage> emails){
+    
+        Messaging.sendEmail(emails, false);
+    }
 
-        Messaging.reserveSingleEmailCapacity(toAddresses.size() + ccAddresses.size());
+    public static Messaging.SingleEmailMessage buildEmail(List<String> toAddresses, List<String> ccAddresses, String body, Boolean isHtmlBody, String subject, String displayName, Boolean isBccSender, Boolean useSignature, String replyTo){
 
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        
-        if(toAddresses.size() + ccAddresses.size() = 0) return;
 
         mail.setToAddresses(toAddresses);
         mail.setCcAddresses(ccAddresses);
@@ -127,7 +126,7 @@ global without sharing class UtilsClass {
             mail.setPlainTextBody(body);
         }
 
-        Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{mail});
+        return mail;
     }
     
     public class UtilsException extends Exception {}
@@ -137,5 +136,4 @@ global without sharing class UtilsClass {
         public Integer statusCode;
         public Boolean hasError = false;
     }
-
 }

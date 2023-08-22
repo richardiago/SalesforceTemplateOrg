@@ -20,7 +20,7 @@ global class UtilsClassTest {
     @isTest
     public static void isChangedTest(){
 
-        List<Acccount> accs = [SELECT Id, Name, NumberOfEmployees FROM Account];
+        List<Account> accs = [SELECT Id, Name, NumberOfEmployees FROM Account];
         Assert.isTrue(UtilsClass.isChanged(accs[0], accs[1], new List<String>{'NumberOfEmployees'}));
         Assert.isFalse(UtilsClass.isChanged(accs[0], accs[0], new List<String>{'NumberOfEmployees'}));
     }
@@ -33,6 +33,30 @@ global class UtilsClassTest {
     }
 
     @isTest
+    public static void sendSingleEmailTest(){
+
+        List<String> toAddresses = new List<String>{'test@test.test', 'test2@test.test'};
+        List<String> ccAddresses = new List<String>();
+        String body = 'This is a test';
+        Boolean isHtmlBody = false;
+        String subject = 'Sending email from Salesforce';
+        String displayName = 'Salesforce Tester';
+        Boolean isBccSender = false;
+        Boolean useSignature = true;
+        String replyTo = 'test3@test.test';
+
+        Messaging.SingleEmailMessage email = UtilsClass.buildEmail(toAddresses, ccAddresses, body, isHtmlBody, subject, displayName, isBccSender, useSignature, replyTo);
+        UtilsClass.sendEmail(new List<Messaging.SingleEmailMessage>{email});
+        
+
+        isHtmlBody = true;
+        body = '<b> Your test </b>';
+
+        email = UtilsClass.buildEmail(toAddresses, ccAddresses, body, isHtmlBody, subject, displayName, isBccSender, useSignature, replyTo);
+        UtilsClass.sendEmail(new List<Messaging.SingleEmailMessage>{email});
+    }
+
+    @isTest
     public static void executeHttpRequestTest(){
 
         Map<String, String> headers = new Map<String, String>{
@@ -42,11 +66,11 @@ global class UtilsClassTest {
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new HttpRequestMock());
-        HttpResponse res = UtilsClass.executeHttpRequest('https://www.test.com', 'GET', 'test', headers);
+        UtilsClass.HttpResponseWrapper res = UtilsClass.executeHttpRequest('https://www.test.com', 'GET', 'test', headers);
         Test.stopTest();
     }
 
-    global class HttpRequestMock implements HttpCalloutMock {
+    global class HttpRequestMock implements HttpCalloutMock{
 
         global HTTPResponse respond(HTTPRequest req){
             HttpResponse res = new HttpResponse();
