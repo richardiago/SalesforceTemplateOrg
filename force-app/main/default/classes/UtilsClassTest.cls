@@ -10,6 +10,12 @@ global class UtilsClassTest {
         insert new List<Account>{acc1, acc2};
     }
 
+    public static void getRecordTypeIdTest(){
+
+        UtilsClass.getRecordTypeId('Account', 'Person Account', true);
+        UtilsClass.getRecordTypeId('Account', 'Person Account', false);
+    }
+
     @isTest
     public static void getPicklistValuesTest(){
 
