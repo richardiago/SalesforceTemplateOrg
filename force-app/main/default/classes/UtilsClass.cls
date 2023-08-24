@@ -110,8 +110,8 @@ global without sharing class UtilsClass {
 
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
 
-        mail.setToAddresses(toAddresses);
-        mail.setCcAddresses(ccAddresses);
+        if(!toAddresses.isEmpty()) mail.setToAddresses(toAddresses);
+        if(!ccAddresses.isEmpty()) mail.setCcAddresses(ccAddresses);
 
         if(String.isNotBlank(replyTo)) mail.setReplyTo(replyTo);
         if(String.isNotBlank(displayName)) mail.setSenderDisplayName(displayName);
