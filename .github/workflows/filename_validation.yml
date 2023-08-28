@@ -1,0 +1,20 @@
+name: Validate File Name
+
+on:
+    pull_request:
+        branches: ["main", "homolog", "dev"]
+
+jobs:
+    validate_file_name:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Validate file name
+              run: python validate_filename.py
+                
+        
+
+            
+
