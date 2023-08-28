@@ -1,3 +1,4 @@
+import os
 import re
 import sys
 import subprocess
@@ -11,9 +12,10 @@ def validateFilename(origin_branch, destination_branch):
    pattern = r"^[^_]*\.field-meta\.xml$"
 
    for file_name in files_changed:
-    if not re.match(pattern, file_name):
-        print(f"File name '{file_name}' does not match the required pattern")
-        sys.exit(1)
+    if os.path.exists(file_name):
+        if not re.match(pattern, os.path.basename(file_name)):
+            print(f"File name '{file_name}' does not match the required pattern")
+            sys.exit(1)
 
 
 if __name__ == "__main__":
