@@ -2,9 +2,9 @@ import re
 import sys
 import subprocess
 
-def validateFilename():
+def validateFilename(origin_branch, destination_branch):
 
-   output = subprocess.check_output(["git", "diff", "--name-only", "HEAD^", "HEAD"])
+   output = subprocess.check_output(["git", "diff", "--name-only", origin_branch, destination_branch])
    files_changed = output.decode("utf-8").splitlines()
 
    # Check if any of the changed files match the pattern
@@ -18,4 +18,4 @@ def validateFilename():
 
 if __name__ == "__main__":
    
-   validateFilename()
+   validateFilename(sys.argv[1], sys.argv[2])
