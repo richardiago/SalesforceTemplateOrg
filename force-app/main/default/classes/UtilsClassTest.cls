@@ -54,7 +54,6 @@ global class UtilsClassTest {
         Messaging.SingleEmailMessage email = UtilsClass.buildEmail(toAddresses, ccAddresses, body, isHtmlBody, subject, displayName, isBccSender, useSignature, replyTo);
         UtilsClass.sendEmail(new List<Messaging.SingleEmailMessage>{email});
         
-
         isHtmlBody = true;
         body = '<b> Your test </b>';
 
