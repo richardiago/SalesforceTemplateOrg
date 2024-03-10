@@ -10,11 +10,13 @@ global class UtilsClassTest {
         insert new List<Account>{acc1, acc2};
     }
 
+    @TestSetup
     public static void verifyAutomationSetting(){
             
         Boolean isAutomationEnabled = UtilsClass.verifyAutomationSetting('Account');
     }
 
+    @TestSetup
     public static void setAutomationSetting(){
 
         UtilsClass.setAutomationSetting('Account', false);
