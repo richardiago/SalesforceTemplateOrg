@@ -1,4 +1,26 @@
 global without sharing class UtilsClass {
+
+    public static Boolean verifyAutomationSetting(string objectAPIName){
+
+        try{
+            return AutomationSettings__c.getValues(objectAPIName).Disabled__c;
+        }
+        catch(Exception e){
+            throw new UtilsException(e.getMessage());
+        }
+    }
+
+    public static void setAutomationSetting(string objectAPIName, Boolean isDisabled){
+
+        try{
+            AutomationSettings__c automationSetting = AutomationSettings__c.getValues(objectAPIName);
+            automationSetting.Disabled__c = isDisabled;
+            update automationSetting;
+        }
+        catch(Exception e){
+            throw new UtilsException(e.getMessage());
+        }
+    }
     
     public static Id getRecordTypeId(String objectName, String recordType, Boolean isDeveloperName){
 
