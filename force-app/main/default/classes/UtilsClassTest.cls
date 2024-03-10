@@ -8,6 +8,9 @@ global class UtilsClassTest {
         Account acc2 = (Account) TestFactory.createSObject(new Account(Name = 'Test Account 2', NumberOfEmployees = 26));
 
         insert new List<Account>{acc1, acc2};
+
+        AutomationSettings__c accAutSet = (AutomationSettings__c) TestFactory.createSObject(new AutomationSettings__c(Name='Account'));
+        insert accAutSet;
     }
 
     @isTest
