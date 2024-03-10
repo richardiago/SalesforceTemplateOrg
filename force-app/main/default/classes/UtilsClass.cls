@@ -3,7 +3,7 @@ global without sharing class UtilsClass {
     public static Boolean verifyAutomationSetting(string objectAPIName){
 
         try{
-            return AutomationSettings__c.getValues(objectAPIName).Disabled__c;
+            return AutomationSettings__c.getValues(objectAPIName).IsDisabled__c;
         }
         catch(Exception e){
             throw new UtilsException(e.getMessage());
@@ -14,7 +14,7 @@ global without sharing class UtilsClass {
 
         try{
             AutomationSettings__c automationSetting = AutomationSettings__c.getValues(objectAPIName);
-            automationSetting.Disabled__c = isDisabled;
+            automationSetting.IsDisabled__c = isDisabled;
             update automationSetting;
         }
         catch(Exception e){
