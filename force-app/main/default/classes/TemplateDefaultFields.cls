@@ -11,12 +11,4 @@ public without sharing class TemplateDefaultFields {
             };
         }
     }
-
-    public class AutomationSettingsDefaults implements FieldDefaults {
-        public Map<String, Object> getFieldDefaults() {
-            return new Map<String, Object>{
-                'IsDisabled__c' => false
-            };
-        }
-    }
 }
