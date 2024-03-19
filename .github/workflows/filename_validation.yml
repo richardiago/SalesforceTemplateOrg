@@ -1,0 +1,21 @@
+name: Validate File Name
+
+on:
+    pull_request:
+        branches: ["main", "homolog", "dev"]
+
+jobs:
+    validate_file_name:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Add safe.directory exception
+              run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+
+            - name: Git fetch
+              run: git fetch --all
+
+            - name: Validate file name
+              run: python validate_filename.py origin/${{ github.head_ref }} origin/${{ github.base_ref }}
