@@ -6,7 +6,7 @@ public abstract without sharing class TriggerHandler {
     public Map<Id, SObject> newMap {get;set;}
     public Map<Id, SObject> oldMap {get;set;}
     
-    public TriggerHandler(System.TriggerOperation operation, List<SObject> newRecordList, List<SObject> oldRecordList, Map<Id, SObject> newMap, Map<Id, SObject> oldMap) {
+    public TriggerHandler(System.TriggerOperation operation, List<SObject> newRecordList, List<SObject> oldRecordList, Map<Id, SObject> newMap, Map<Id, SObject> oldMap){
         this.operation     = operation;
         this.newRecordList = newRecordList;
         this.oldRecordList = oldRecordList;
@@ -14,23 +14,24 @@ public abstract without sharing class TriggerHandler {
         this.oldMap        = oldMap;
     }
 
-    public void execute() {
-        if (this.operation == System.TriggerOperation.BEFORE_INSERT) {
+    public void execute(){
+        
+        if(this.operation == System.TriggerOperation.BEFORE_INSERT){
             beforeInsert();
         }
-        else if (this.operation == System.TriggerOperation.AFTER_INSERT) {
+        else if(this.operation == System.TriggerOperation.AFTER_INSERT){
             afterInsert();
         }
-        else if (this.operation == System.TriggerOperation.BEFORE_UPDATE) {
+        else if(this.operation == System.TriggerOperation.BEFORE_UPDATE){
             beforeUpdate();
         }
-        else if (this.operation == System.TriggerOperation.AFTER_UPDATE) {
+        else if(this.operation == System.TriggerOperation.AFTER_UPDATE){
             afterUpdate();
         }
-        else if (this.operation == System.TriggerOperation.BEFORE_DELETE) {
+        else if(this.operation == System.TriggerOperation.BEFORE_DELETE){
             beforeDelete();
         }
-        else if (this.operation == System.TriggerOperation.AFTER_DELETE) {
+        else if(this.operation == System.TriggerOperation.AFTER_DELETE){
             afterDelete();
         }
     }
@@ -46,5 +47,4 @@ public abstract without sharing class TriggerHandler {
     public abstract void beforeDelete();
 
     public abstract void afterDelete();
-
 }

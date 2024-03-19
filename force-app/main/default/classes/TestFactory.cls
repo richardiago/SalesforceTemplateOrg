@@ -2,22 +2,25 @@ public without sharing class TestFactory {
 
     // Default Fields For SObjects
     private static final String DEFAULT_FIELD_FOR_SOBJECTS = 'Name';
+
 	@TestVisible
-    private static void validateSObject(SObject SObj) {
-        if (sObj == null) {
+    private static void validateSObject(SObject SObj){
+        
+        if(sObj == null){
             throw new TestFactoryException('SObject cannot be null');
         }
     }
 
-    private static void addFieldDefaults(SObject sObj, Map<String, Object> defaultFields) {
-        for (String field : defaultFields.keySet()) {
-            if (sObj.get(field) == null) {
+    private static void addFieldDefaults(SObject sObj, Map<String, Object> defaultFields){
+
+        for(String field : defaultFields.keySet()){
+            if(sObj.get(field) == null){
                 sObj.put(field, defaultFields.get(field));
             }   
         }
     }
 
-    public static SObject createSObject(SObject sObj) {
+    public static SObject createSObject(SObject sObj){
         validateSObject(sObj);
 
         String objectName = String.valueOf(sObj.getSObjectType());
@@ -28,9 +31,11 @@ public without sharing class TestFactory {
     }
     
 	@TestVisible
-    private static SObject dispatchSObjectCreation(SObject sObj, String defaultClassName) {
+    private static SObject dispatchSObjectCreation(SObject sObj, String defaultClassName){
+
         Type t = Type.forName(defaultClassName);
-        if (t == null) {
+
+        if(t == null){
             throw new TestFactoryException('Invalid defaults class.');
         }
         TemplateDefaultFields.FieldDefaults defaults = (TemplateDefaultFields.FieldDefaults) t.newInstance();
@@ -38,6 +43,5 @@ public without sharing class TestFactory {
         return sObj;
     }
     
-    public class TestFactoryException extends Exception {
-    }
+    public class TestFactoryException extends Exception {}
 }
