@@ -116,6 +116,7 @@ global without sharing class UtilsClass {
         if(String.isNotBlank(replyTo)) mail.setReplyTo(replyTo);
         if(String.isNotBlank(displayName)) mail.setSenderDisplayName(displayName);
         if(String.isNotBlank(subject)) mail.setSubject(subject);
+        
         mail.setBccSender(isBccSender);
         mail.setUseSignature(useSignature);
 
