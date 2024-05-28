@@ -5,13 +5,13 @@
         <title>Pedido {!order.OrderNumber}</title>
         <style type="text/css">
             @page:first{
-                padding-top: 40px;
+                padding-top: 1px;
             }
             @page{
                 size: landscape;
-                padding-top: 50px;
-                margin-left: 20px;
-                margin-right: 20px;
+                padding-top: 1px;
+                margin-left: 10px;
+                margin-right: 10px;
             
                 @top-center{
                     content: element(header);
@@ -33,11 +33,21 @@
             }
             
             </style>
-
-
     </head>
 
     <body>
+
+        <table>
+            <tr>
+                <td>
+                    <img src="{!URLFOR($Resource.OrderPDF, 'logo.jpeg')}" alt="Logo" style="width: 200px; height: 100px;"/>
+                </td>
+                <td>
+                    <h1>Order {!order.OrderNumber}</h1>
+                </td>
+            </tr>
+        </table>
+
         <table>
             <tr>
                 <td colspan="3"><strong>Customer Name:</strong> {!order.Account.Name}</td>
@@ -78,19 +88,30 @@
             <apex:repeat value="{!order.OrderItems}" var="item">
                 <tr>
                     <td>{!item.Product2.Name}</td>
-                    <td style="text-align: center;">{!item.Quantity}</td>
-                    <td style="text-align: right;"> 
-                        <apex:outputText value="{0, number, 000,000.00}">
+
+                    <td style="text-align: center;"> 
+                        <apex:outputText value="{0, number, 0}">
+                            <apex:param value="{!item.Quantity}" />
+                        </apex:outputText>
+                    </td>
+
+                    <td style="text-align: center;">
+                        <apex:outputText value="{0, number, currency}">
                             <apex:param value="{!item.UnitPrice}" />
                         </apex:outputText>
                     </td>
-                    <td style="text-align: right;"> <span style="padding-right: 20px;">$ </span> {!item.TotalPrice}</td>
+
+                    <td style="text-align: center;">
+                        <apex:outputText value="{0, number, currency}">
+                            <apex:param value="{!item.TotalPrice}" />
+                        </apex:outputText>
+                    </td>
                 </tr>
             </apex:repeat>
 
             <tr>
-                <td colspan="3"><strong>Total:</strong></td>
-                <td>
+                <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
+                <td style="text-align: right;">
                     <apex:outputText value="{0, number, currency}">
                         <apex:param value="{!order.TotalAmount}" />
                     </apex:outputText>
