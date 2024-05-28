@@ -1,4 +1,4 @@
-<apex:page controller="OrderPDFController" renderAs="pdf" applyBodyTag="false" applyHtmlTag="false" showHeader="false" docType="html-5.0">
+<apex:page standardController="Order" extensions="OrderPDFController" renderAs="pdf" applyBodyTag="false" applyHtmlTag="false" showHeader="false" docType="html-5.0">
     <apex:stylesheet value="{!URLFOR($Resource.OrderPDF, 'OrderPDFStyle.css')}"/>
 
     <head>

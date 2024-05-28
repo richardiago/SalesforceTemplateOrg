@@ -20,11 +20,7 @@ public class OrderPDFControllerTest {
         insert ordItem;
         
         Test.startTest();
-        PageReference pageRef = Page.OrderPDF;
-        Test.setCurrentPage(pageRef);
-        pageRef.getParameters().put('id', ord.Id);
-        
-        OrderPDFController controller = new OrderPDFController();
+        OrderPDFController controller = new OrderPDFController(new Apexpages.StandardController(ord));
         Test.stopTest();
     }
 }
