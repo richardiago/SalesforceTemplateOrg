@@ -11,6 +11,9 @@ jobs:
       matrix:
         sf_org_alias: [Homologation]
     
+    env:
+      ENVIRONMENT: ${{ matrix.sf_org_alias }}
+    
     environment: ${{ matrix.sf_org_alias }}
     runs-on: ubuntu-latest
     container:
