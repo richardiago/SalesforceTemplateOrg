@@ -28,7 +28,7 @@ jobs:
       id: download-artifact
       uses: dawidd6/action-download-artifact@v6
       with:
-        workflow: sf_run_apex_tests.yaml
+        workflow: sf_run_apex_tests.yml
         workflow_conclusion: success
         name: ${{ matrix.sf_org_alias }}_test_run_id
         name_is_regexp: true
