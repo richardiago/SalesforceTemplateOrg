@@ -13,7 +13,8 @@ jobs:
 
     env:
       ENVIRONMENT: ${{ matrix.sf_org_alias }}
-
+    
+    environment: ${{ env.ENVIRONMENT }}
     runs-on: ubuntu-latest
     container:
       image: salesforce/cli:latest-full
