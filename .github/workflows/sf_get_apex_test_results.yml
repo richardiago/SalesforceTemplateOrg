@@ -1,0 +1,60 @@
+name: Get Apex Test results
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  get-test-results:
+    strategy:
+      matrix:
+        sf_org_alias: [Development]
+
+    env:
+      ENVIRONMENT: ${{ matrix.sf_org_alias }}
+    
+    environment: ${{ matrix.sf_org_alias }}
+    runs-on: ubuntu-22.04
+    container:
+      image: salesforce/cli:latest-full
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Use 3rd party GitHub action to download the artifact created in the previous job. The artifact contains the test run Id
+    - name: Download artifact
+      id: download-artifact
+      uses: dawidd6/action-download-artifact@v6
+      with:
+        workflow: sf-run-apex-tests.yaml
+        workflow_conclusion: success
+        name: ${{ matrix.sf_org_alias }}_test_run_id
+        name_is_regexp: true
+        
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+
+    - name: Store test run id in env variable
+      run: |
+        cd ${{ matrix.sf_org_alias }}_test_run_id
+        TEST_RUN_ID=$(cat ${{ matrix.sf_org_alias }}_test_run_id.txt)
+        echo "TEST_RUN_ID=$TEST_RUN_ID" >> $GITHUB_ENV
+
+    - name: Populate auth file with SFDX_URL secret of org
+      run: echo "${{ secrets.SECRET_URL }}" > SECRET_URL.txt
+
+    - name: Authenticate Target Org
+      run: sf org login sfdx-url -f SECRET_URL.txt -s
+
+    - name: Extract apex test results
+      run: |
+        sf apex get test -i ${{ env.TEST_RUN_ID }} -c --json > test_results.json || true
+
+    - name: Run Python script to parse test results and send to Datadog
+      run: python3 ./scripts/parseApexTestResults.py test_results.json ${{ matrix.sf_org_alias }} ${{ secrets.DATADOG_API_KEY }}
+
+    
