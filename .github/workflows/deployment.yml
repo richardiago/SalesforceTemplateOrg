@@ -1,4 +1,4 @@
-name: Salesforce Deployment CI/CD Pipeline
+name: Salesforce Deployment
 
 on:
     push:
