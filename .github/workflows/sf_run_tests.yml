@@ -9,7 +9,7 @@ jobs:
   run-apex-tests:
     strategy:
       matrix:
-        sf_org_alias: [Homologation]
+        sf_org_alias: [Development]
     
     env:
       ENVIRONMENT: ${{ matrix.sf_org_alias }}
