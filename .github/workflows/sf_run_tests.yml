@@ -10,11 +10,8 @@ jobs:
     strategy:
       matrix:
         sf_org_alias: [Homologation]
-
-    # env:
-    #   ENVIRONMENT: ${{ matrix.sf_org_alias }}
     
-    environment: ${{ matrix.ENVIRONMENT }}
+    environment: ${{ matrix.sf_org_alias }}
     runs-on: ubuntu-latest
     container:
       image: salesforce/cli:latest-full
