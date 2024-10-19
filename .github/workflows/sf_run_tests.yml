@@ -11,10 +11,10 @@ jobs:
       matrix:
         sf_org_alias: [Homologation]
 
-    env:
-      ENVIRONMENT: ${{ matrix.sf_org_alias }}
+    # env:
+    #   ENVIRONMENT: ${{ matrix.sf_org_alias }}
     
-    environment: ${{ env.ENVIRONMENT }}
+    environment: ${{ matrix.ENVIRONMENT }}
     runs-on: ubuntu-latest
     container:
       image: salesforce/cli:latest-full
