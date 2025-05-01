@@ -8,6 +8,7 @@ on:
 jobs:
   get-test-results:
     strategy:
+      fail-fast: false
       matrix:
         sf_org_alias: [Development]
 

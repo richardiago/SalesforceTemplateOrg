@@ -8,6 +8,7 @@ on:
 jobs:
   run-apex-tests:
     strategy:
+      fail-fast: false
       matrix:
         sf_org_alias: [Development]
     
