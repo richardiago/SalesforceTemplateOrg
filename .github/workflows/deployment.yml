@@ -48,8 +48,11 @@ jobs:
             - name: Verifying changes
               run: echo "CHANGED_FILES=$(python3 scripts/verify_delta_changes.py ${{ github.event.before }} ${{ github.event.after }})" >> $GITHUB_ENV
 
+            - name: Populate auth file with SFDX_URL secret of org
+              run: echo "${{ secrets.SECRET_URL }}" > SECRET_URL.txt
+
             - name: Authenticate Target Org
-              run: sf org login sfdx-url -f SECRET_URL -s
+              run: sf org login sfdx-url -f SECRET_URL.txt -s
     
             # - name: Get the private key
             #   run: echo "${{ secrets.PRIVATE_KEY }}" > private_key.key
