@@ -56,4 +56,4 @@ jobs:
               if: ${{ env.CHANGED_FILES != '' }}
               run: |
                 sf project convert source -r force-app -p $CHANGED_FILES -d converted/main
-                sf project deploy validate --metadata-dir converted/main -l RunLocalTests
+                sf project deploy validate --metadata-dir converted/main -l RunLocalTests --concise
