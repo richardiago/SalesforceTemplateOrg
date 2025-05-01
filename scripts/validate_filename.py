@@ -12,9 +12,9 @@ def validateFilename(origin_branch, destination_branch):
    pattern = r"^[^_]*\.field-meta\.xml$"
 
    for file_name in files_changed:
-    if os.path.exists(file_name):
+    if os.path.exists(file_name) and file_name.endswith(".field-meta.xml"):
         if not re.match(pattern, os.path.basename(file_name)):
-            print(f"File name '{file_name}' does not match the required pattern")
+            print(f"File '{file_name}' does not match the required name pattern")
             sys.exit(1)
 
 
