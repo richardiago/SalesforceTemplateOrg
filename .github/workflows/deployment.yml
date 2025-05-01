@@ -1,4 +1,4 @@
-name: Salesforce Deployment CI/CD Pipeline
+name: Salesforce Deployment
 
 on:
     push:
@@ -35,7 +35,7 @@ jobs:
 
         steps:
             - name: GitHub Checkout
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                 fetch-depth: 0
 
@@ -46,14 +46,16 @@ jobs:
               run: git fetch --all
 
             - name: Verifying changes
-              run: echo "CHANGED_FILES=$(python3 verify_delta_changes.py ${{ github.event.before }} ${{ github.event.after }})" >> $GITHUB_ENV
-    
-            - name: Get the private key
-              run: echo "${{ secrets.PRIVATE_KEY }}" > private_key.key
+              run: echo "CHANGED_FILES=$(python3 scripts/verify_delta_changes.py ${{ github.event.before }} ${{ github.event.after }})" >> $GITHUB_ENV
 
+            - name: Populate auth file with SFDX_URL secret of org
+              run: echo "${{ secrets.SECRET_URL }}" > SECRET_URL.txt
+
+            - name: Authenticate Target Org
+              run: sf org login sfdx-url -f SECRET_URL.txt -s
+    
             - name: Deploy using SFDX
               if: ${{ env.CHANGED_FILES != '' }}
               run: |
                 sf project convert source -r force-app -p $CHANGED_FILES -d converted/main
-                sf org login jwt --username ${{ vars.USERNAME }} --jwt-key-file private_key.key --client-id ${{ secrets.CLIENT_ID }} --instance-url ${{ vars.INSTANCE_URL }}
-                sf project deploy start --metadata-dir converted/main -l RunLocalTests -o ${{ vars.USERNAME }}
+                sf project deploy start --metadata-dir converted/main -l RunLocalTests
