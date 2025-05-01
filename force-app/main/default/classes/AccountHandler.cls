@@ -35,4 +35,6 @@ public without sharing class AccountHandler extends TriggerHandler {
     public override void beforeDelete(){}
 
     public override void afterDelete(){}
+
+    //comentário
 }
